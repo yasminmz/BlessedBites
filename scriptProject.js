@@ -85,32 +85,24 @@ function loadCheckoutCart() {
 
 function handleCheckoutForm() {
     document.getElementById('checkout-form').addEventListener('submit', (e) => {
-        e.preventDefault(); // Prevent the form from reloading the page
-
+        e.preventDefault();
         const paymentMethod = document.getElementById('payment-method').value;
-        const address = document.getElementById('address').value;
-
-        // Validate that payment method and address are provided
         if (!paymentMethod) {
             alert('Please select a payment method.');
             return;
         }
-
-        if (!address.trim()) {
-            alert('Please provide your address.');
-            return;
-        }
-
-        // Show success alert
-        alert('Order placed successfully!');
-
-        // Clear cart and checkoutCart data from localStorage
-        localStorage.removeItem('checkoutCart');
-        localStorage.removeItem('cart');
-
-        // Redirect to the main page
-        window.location.href = 'index.html'; // Replace 'index.html' with your actual main page's filename
+        alert(`Order placed successfully!`);
+        localStorage.removeItem('checkoutCart'); 
+        localStorage.removeItem('cart'); 
+        window.location.href = 'menuProject.html'; 
     });
+}
+
+if (window.location.pathname.includes('cartProject.html')) {
+    loadCart();
+} else if (window.location.pathname.includes('checkoutPage.html')) {
+    loadCheckoutCart();
+    handleCheckoutForm();
 }
 
 
