@@ -121,59 +121,52 @@
     </footer>
 
     <script>
-    function loadReviews() {
-        const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-        const reviewsContainer = document.getElementById('reviews-container');
-        reviewsContainer.innerHTML = '';
-    
-        if (reviews.length > 0) {
-            reviews.forEach((review) => {
-                const reviewItem = document.createElement('div');
-                reviewItem.classList.add('review-item');
-                reviewItem.innerHTML = `
-                    <h3>${review.name}</h3>
-                    <p><strong>Email:</strong> ${review.email}</p>
-                    <p><strong>Review:</strong> ${review.message}</p>
-                `;
-                reviewsContainer.appendChild(reviewItem);
-            });
-        } else {
-            const placeholder = document.createElement('p');
-            placeholder.classList.add('no-reviews');
-            placeholder.textContent = 'No reviews yet. Be the first to leave a review!';
-            reviewsContainer.appendChild(placeholder);
+ 
+        function loadReviews() {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            const reviewsContainer = document.getElementById('reviews-container');
+
+            reviewsContainer.innerHTML = ''; 
+
+            if (reviews.length > 0) {
+                reviews.forEach((review) => {
+                    const reviewItem = document.createElement('div');
+                    reviewItem.classList.add('review-item');
+                    reviewItem.innerHTML = `
+                        <h3>${review.name}</h3>
+                        <p><strong>Email:</strong> ${review.email}</p>
+                        <p><strong>Review:</strong> ${review.message}</p>
+                    `;
+                    reviewsContainer.appendChild(reviewItem);
+                });
+            } else {
+                reviewsContainer.innerHTML = '<p>No reviews yet. Be the first to leave a review!</p>';
+            }
         }
-    }
-    
-    document.getElementById('review-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-    
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const message = document.getElementById('message').value.trim();
-    
-        if (!name || !email || !message) {
-            alert('Please fill in all fields before submitting your review.');
-            return;
-        }
-    
-        // Save the new review to localStorage
-        const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-        reviews.push({ name, email, message });
-        localStorage.setItem('reviews', JSON.stringify(reviews));
-    
-        // Display a thank-you message and reset the form
-        alert(`Thank you, ${name}, for your review! We'll get back to you at ${email}.`);
-        document.getElementById('review-form').reset();
-    
-        // Reload the reviews after submitting
+
+   
+        document.getElementById('review-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+ 
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            reviews.push({ name, email, message });
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+
+   
+            alert(`Thank you, ${name}, for your review! We'll get back to you at ${email}.`);
+            document.getElementById('review-form').reset();
+
+
+            loadReviews();
+        });
+
         loadReviews();
-    });
-    
-    // Initial load of reviews
-    if (window.location.pathname.includes('review.html')) {
-        loadReviews();
-    }    
     </script>
 </body>
 </html>
+
